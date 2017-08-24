@@ -50,7 +50,7 @@ function util_ffigure(par,out)
     % then make the plots
     switch par.figRunFirst
       case 1
-        var = out.out_ngmres_sdls_precond
+        var = out.out_ngmres_sdls_precond;
         cnum = 1;
         mind = 1:par.mispace{cnum}:length(var.logf);
         semilogy(var.logf-minval+par.epsi, ...
@@ -101,7 +101,7 @@ function util_ffigure(par,out)
     end
     if par.compareNGMRES_sdls_precond==1 & par.figRunFirst~=1
         hold on
-        var = out.out_ngmres_sdls_precond
+        var = out.out_ngmres_sdls_precond;
         cnum = 1;
         mind = 1:par.mispace{cnum}:length(var.logf);
         semilogy(var.logf-minval+par.epsi, ...
@@ -112,7 +112,7 @@ function util_ffigure(par,out)
     end
     if par.compareNGMRES_descent_precond==1 & par.figRunFirst~=2
         hold on
-        var = out.out_ngmres_descent_precond
+        var = out.out_ngmres_descent_precond;
         cnum = 2;
         mind = 1:par.mispace{cnum}:length(var.logf);
         semilogy(var.logf-minval+par.epsi, ...
