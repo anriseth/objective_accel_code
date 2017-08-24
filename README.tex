@@ -1,0 +1,22 @@
+Four matlab m-files are provided that implement the N-GMRES Nonlinear GMRES optimization method that was proposed and analyzed in references [1] and [2] below, and test the method for a standard continuous optimization problem and a CP tensor decomposition problem (using functions from Sandia's Tensor and Poblano toolboxes, see below).
+
+References for the N-GMRES optimization method:
+   [1] Hans De Sterck, "A Nonlinear GMRES Optimization Algorithm for Canonical Tensor Decomposition", SIAM J. Sci. Comput. 34, A1351-A1379, 2012.
+   [2] Hans De Sterck, "Steepest Descent Preconditioning for Nonlinear GMRES Optimization", Numerical Linear Algebra with Applications 20, 453-471, 2013.
+
+1) ngmres.m:
+This function is the baseline implementation of the NGMRES algorithm (no dependencies on Tensor toolbox or Poblano toolbox).
+
+2) ngmres_test_general.m:
+A test script that illustrates how ngmres.m (with steepest descent preconditioner) can be used for a general nonlinear optimization problem (with comparison to NCG, LBFGS, and steepest descent) (with dependencies on Poblano toolbox).
+
+3) ngmres_test_tensor_CP.m:
+A test script that illustrates how cp_ngmres.m can be used for a tensor CP decomposition problem (Tomasi & Bro test problem; with comparison to NCG, LBFGS, and steepest descent) (with dependencies on Tensor toolbox and Poblano toolbox).
+
+4) cp_ngmres.m:
+This function calls ngmres.m (with ALS preconditioner) to compute a CP decomposition of a given tensor (with dependencies on Tensor toolbox and Poblano toolbox). It complements the cp_opt function in the Tensor toolbox.
+
+April 2014: These files were tested with the current stable/released versions of the Tensor toolbox (version 2.5) and the Poblano toolbox.
+The Tensor toolbox can be obtained from http://www.sandia.gov/~tgkolda/TensorToolbox.
+The Poblano toolbox can be obtained from https://software.sandia.gov/trac/poblano.
+
