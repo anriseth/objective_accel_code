@@ -53,49 +53,49 @@ function util_ffigure_evals(par,out)
         var = out.out_ngmres_sdls_precond
         cnum = 1;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         legendstr{nCurves}='N-GMRES-sdls';
       case 2
         var = out.out_ngmres_descent_precond;
         cnum = 2;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         legendstr{nCurves}='N-GMRES-sd';
       case 4
         var = out.out_ncg;
         cnum = 4;
         mind = 1:par.mispace{cnum}:length(var.TraceFunc(2:end));
-        semilogy(var.TraceFuncEvals(2:end),var.TraceFunc(2:end)-minval+par.epsi, ...
+        semilogy(var.TraceFunc(2:end)-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         legendstr{nCurves}='N-CG';
       case 5
         var = out.out_sdls_precond;
         cnum = 5;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         legendstr{nCurves}='sdls';
       case 7
         var = out.out_lbfgs;
         cnum = 7;
         mind = 1:par.mispace{cnum}:length(var.TraceFunc(2:end));
-        semilogy(var.TraceFuncEvals(2:end),var.TraceFunc(2:end)-minval+par.epsi, ...
+        semilogy(var.TraceFunc(2:end)-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         legendstr{nCurves}='L-BFGS';
       case 8
         var = out.out_ngmreso_sdls_precond;
         cnum = 8;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         legendstr{nCurves}='N-GMRES-O-sdls';
       case 9
         var = out.out_ngmreso_descent_precond;
         cnum = 9;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         legendstr{nCurves}='N-GMRES-O-sd';
     end
@@ -104,7 +104,7 @@ function util_ffigure_evals(par,out)
         var = out.out_ngmres_sdls_precond
         cnum = 1;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         hold off
         nCurves=nCurves+1;
@@ -115,7 +115,7 @@ function util_ffigure_evals(par,out)
         var = out.out_ngmres_descent_precond
         cnum = 2;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         hold off
         nCurves=nCurves+1;
@@ -126,7 +126,7 @@ function util_ffigure_evals(par,out)
         var = out.out_ncg;
         cnum = 4;
         mind = 1:par.mispace{cnum}:length(var.TraceFunc(2:end));
-        semilogy(var.TraceFuncEvals(2:end),var.TraceFunc(2:end)-minval+par.epsi, ...
+        semilogy(var.TraceFunc(2:end)-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         hold off
         nCurves=nCurves+1;
@@ -137,7 +137,7 @@ function util_ffigure_evals(par,out)
         var = out.out_sdls_precond;
         cnum = 5;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         hold off
         nCurves=nCurves+1;
@@ -148,7 +148,7 @@ function util_ffigure_evals(par,out)
         var = out.out_lbfgs;
         cnum = 7;
         mind = 1:par.mispace{cnum}:length(var.TraceFunc(2:end));
-        semilogy(var.TraceFuncEvals(2:end),var.TraceFunc(2:end)-minval+par.epsi, ...
+        semilogy(var.TraceFunc(2:end)-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         hold off
         nCurves=nCurves+1;
@@ -159,7 +159,7 @@ function util_ffigure_evals(par,out)
         var = out.out_ngmreso_sdls_precond;
         cnum = 8;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         hold off
         nCurves=nCurves+1;
@@ -170,7 +170,7 @@ function util_ffigure_evals(par,out)
         var = out.out_ngmreso_descent_precond;
         cnum = 9;
         mind = 1:par.mispace{cnum}:length(var.logf);
-        semilogy(var.logfev,var.logf-minval+par.epsi, ...
+        semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         hold off
         nCurves=nCurves+1;
