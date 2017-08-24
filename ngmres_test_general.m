@@ -76,6 +76,13 @@ function [par, out] = ngmres_test_general(seednum)
     par.fs{7}='-vk';
     par.fs{8}=':ok';
     par.fs{9}='-ok';
+    par.mispace{1} = 5;
+    par.mispace{2} = 5;
+    par.mispace{4} = 5;
+    par.mispace{5} = 5;
+    par.mispace{7} = 5;
+    par.mispace{8} = 5;
+    par.mispace{9} = 5;
 
     % ngmres parameters
     par.par_ngmres.w=20;       % maximum window size
@@ -257,221 +264,9 @@ function [par, out] = ngmres_test_general(seednum)
     util_ffigure(par,out)
     title('convergence towards the minimum value of f')
 
+    figure(par.figStart+1)
+    util_ffigure_evals(par,out)
+    title('convergence towards the minimum value of f')
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function [f g]=func_problemB(u,d,u_exact,alpha)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%this function implements optimization test problem B from "Steepest
-%Descent Preconditioning for Nonlinear GMRES Optimization" by Hans De
-%Sterck, arXiv:1106.4426v2, 2011
-%
-%OUTPUT: f is the value of the objective function, g is the gradient
-%
-%by Hans De Sterck, September 2011
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    u=u-u_exact;
-    uTransformed=u;
-    uTransformed(2:end)=uTransformed(2:end)-alpha*uTransformed(1)^2;
-
-    % the value of the objective function
-    f=0.5*uTransformed'*diag(d)*uTransformed+1;
-
-    % the gradient
-    g=diag(d)*u;
-    g(2:end)=g(2:end)-alpha*u(1)^2*d(2:end);
-    g(1)=g(1)-2*alpha*u(1)*d(2:end)'*u(2:end)+2*alpha^2*u(1)^3*sum(d(2:end));
-
-end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function util_ffigure(par,out)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%this function makes a convergence plot comparing several optimization
-%methods
-%
-%by Hans De Sterck, September 2011
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    nCurves=1;
-    % first determine the minimum value of f (because we will plot the
-    % convergence of f to the minimum value achieved in any of the tests)
-    switch par.figRunFirst
-      case 1
-        minval=min(out.out_ngmres_sdls_precond.logf);
-      case 2
-        minval=min(out.out_ngmres_descent_precond.logf);
-      case 4
-        minval=min(out.out_ncg.TraceFunc(2:end));
-      case 5
-        minval=min(out.out_sdls_precond.logf);
-      case 7
-        minval=min(out.out_lbfgs.TraceFunc(2:end));
-      case 8
-        minval=min(out.out_ngmreso_sdls_precond.logf);
-      case 9
-        minval=min(out.out_ngmreso_descent_precond.logf);
-    end
-    if par.compareNGMRES_sdls_precond==1 & par.figRunFirst~=1
-        minval=min(minval,min(out.out_ngmres_sdls_precond.logf));
-    end
-    if par.compareNGMRES_descent_precond==1 & par.figRunFirst~=2
-        minval=min(minval,min(out.out_ngmres_descent_precond.logf));
-    end
-    if par.compareNCG==1 & par.figRunFirst~=4
-        minval=min(minval,min(out.out_ncg.TraceFunc(2:end)));
-    end
-    if par.compare_sdls_precond==1 & par.figRunFirst~=5
-        minval=min(minval,min(out.out_sdls_precond.logf));
-    end
-    if par.compareLBFGS==1 & par.figRunFirst~=7
-        minval=min(minval,min(out.out_lbfgs.TraceFunc(2:end)));
-    end
-    if par.compareNGMRESO_sdls_precond==1 & par.figRunFirst~=8
-        minval=min(minval,min(out.out_ngmreso_sdls_precond.logf));
-    end
-    if par.compareNGMRESO_descent_precond==1 & par.figRunFirst~=9
-        minval=min(minval,min(out.out_ngmreso_descent_precond.logf));
-    end
-
-    % then make the plots
-    mind = 1:5:length(out.out_ngmres_sdls_precond.logf)
-    switch par.figRunFirst
-      case 1
-        semilogy(out.out_ngmres_sdls_precond.logf-minval+par.epsi, ...
-                 par.fs{1},'LineWidth',1,'MarkerIndices',mind)
-        legendstr{nCurves}='N-GMRES-sdls';
-      case 2
-        semilogy(out.out_ngmres_descent_precond.logf-minval+ ...
-                 par.epsi,par.fs{2},'LineWidth',1,'MarkerIndices',mind)
-        legendstr{nCurves}='N-GMRES-sd';
-      case 4
-        semilogy(out.out_ncg.TraceFunc(2:end)-minval+par.epsi, ...
-                 par.fs{4},'LineWidth',1,'MarkerIndices',mind)
-        legendstr{nCurves}='N-CG';
-      case 5
-        semilogy(out.out_sdls_precond.logf-minval+par.epsi, ...
-                 par.fs{5},'LineWidth',1,'MarkerIndices',mind)
-        legendstr{nCurves}='sdls';
-      case 7
-        semilogy(out.out_lbfgs.TraceFunc(2:end)-minval+par.epsi, ...
-                 par.fs{7},'LineWidth',1,'MarkerIndices',mind)
-        legendstr{nCurves}='L-BFGS';
-      case 8
-        semilogy(out.out_ngmreso_sdls_precond.logf-minval+ ...
-                 par.epsi,par.fs{8},'LineWidth',1,'MarkerIndices',mind)
-        legendstr{nCurves}='N-GMRES-O-sdls';
-      case 9
-        semilogy(out.out_ngmreso_descent_precond.logf-minval+ ...
-                 par.epsi,par.fs{9},'LineWidth',1,'MarkerIndices',mind)
-
-        legendstr{nCurves}='N-GMRES-O-sd';
-    end
-    if par.compareNGMRES_sdls_precond==1 & par.figRunFirst~=1
-        hold on
-        semilogy(out.out_ngmres_sdls_precond.logf-minval+par.epsi, ...
-                 par.fs{1},'LineWidth',1,'MarkerIndices',mind)
-        hold off
-        nCurves=nCurves+1;
-        legendstr{nCurves}='N-GMRES-sdls';
-    end
-    if par.compareNGMRES_descent_precond==1 & par.figRunFirst~=2
-        hold on
-        semilogy(out.out_ngmres_descent_precond.logf-minval+ ...
-                 par.epsi,par.fs{2},'LineWidth',1,'MarkerIndices',mind)
-        hold off
-        nCurves=nCurves+1;
-        legendstr{nCurves}='N-GMRES-sd';
-    end
-    if par.compareNCG==1 & par.figRunFirst~=4
-        hold on
-        semilogy(out.out_ncg.TraceFunc(2:end)-minval+par.epsi, ...
-                 par.fs{4},'LineWidth',1,'MarkerIndices',mind)
-        hold off
-        nCurves=nCurves+1;
-        legendstr{nCurves}='N-CG';
-    end
-    if par.compare_sdls_precond==1 & par.figRunFirst~=5
-        hold on
-        semilogy(out.out_sdls_precond.logf-minval+par.epsi, ...
-                 par.fs{5},'LineWidth',1,'MarkerIndices',mind)
-        hold off
-        nCurves=nCurves+1;
-        legendstr{nCurves}='sdls';
-    end
-    if par.compareLBFGS==1 & par.figRunFirst~=7
-        hold on
-        semilogy(out.out_lbfgs.TraceFunc(2:end)-minval+par.epsi, ...
-                 par.fs{7},'LineWidth',1,'MarkerIndices',mind)
-        hold off
-        nCurves=nCurves+1;
-        legendstr{nCurves}='L-BFGS';
-    end
-    if par.compareNGMRESO_sdls_precond==1 & par.figRunFirst~=8
-        hold on
-        semilogy(out.out_ngmreso_sdls_precond.logf-minval+ ...
-                 par.epsi,par.fs{8},'LineWidth',1,'MarkerIndices',mind)
-        hold off
-        nCurves=nCurves+1;
-        legendstr{nCurves}='N-GMRES-O-sdls';
-    end
-    if par.compareNGMRESO_descent_precond==1 & par.figRunFirst~=9
-        hold on
-        semilogy(out.out_ngmreso_descent_precond.logf-minval+ ...
-                 par.epsi,par.fs{9},'LineWidth',1,'MarkerIndices',mind)
-        hold off
-        nCurves=nCurves+1;
-        legendstr{nCurves}='N-GMRES-O-sd';
-    end
-
-    % optionally indicate the restart points in red for the N-GMRES runs
-    if par.par_ngmres.logRestart & par.restartfigure
-        if par.compareNGMRES_sdls_precond==1
-            logfMod=out.out_ngmres_sdls_precond.logf-minval;
-            logfMod(out.out_ngmres_sdls_precond.logRestart==0)=NaN;
-            hold on
-            semilogy(logfMod+par.epsi,'or')
-            hold off
-        end
-        if par.compareNGMRES_descent_precond==1
-            logfMod=out.out_ngmres_descent_precond.logf-minval;
-            logfMod(out.out_ngmres_descent_precond.logRestart==0)=NaN;
-            hold on
-            semilogy(logfMod+par.epsi,'+r')
-            hold off
-        end
-    end
-    legend(legendstr)
-    xlabel('iterations')
-end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function [u,f,g,fev]=sd(u,f,g,fg,lsearch,par)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%this function performs one steepest descent step with line search
-%
-%by Hans De Sterck, September 2011
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% do one steepest descent iteration
-    d=-g;
-    [u,f,g,step,fev] = lsearch(fg,u,f,g,d);
-end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function [u,f,g,fev]=descentDir(u,f,g,fg,precStep1,precStep2)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%this function performs one steepest descent step with a small step length
-%
-%by Hans De Sterck, September 2011
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% do a small step in the direction of steepest descent
-    ng=norm(g);
-    u=u-min(precStep1,precStep2*ng)*g/ng;
-
-    [f g]=fg(u);
-    fev=1;
-end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
