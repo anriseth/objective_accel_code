@@ -186,23 +186,26 @@ function ngmres_test_tensor_CP
 
     if par.logf
         figure(figStart+2)
-        semilogy(out.logf-min(out.logf),'-+')
+
+        minval = min(min(out.logf),min(out_o.logf));
+        minval = min(minval,min(out_ncg.TraceFunc(2:end)));
+        minval = min(minval,min(fALS));
+        semilogy(out.logf-minval,'-+')
         title('convergence towards the minimum value of f')
         if par.logRestart
-            logfMod=out.logf-min(out.logf);
+            logfMod=out.logf-minval;
             logfMod(out.logRestart==0)=NaN;
             hold on
             semilogy(logfMod,'+r')
             hold off
         end
         if compareNGMRESO==1
-            minval=min(min(out.logf),min(out_o.logf));
             hold on
             semilogy(out_o.logf-minval,'-o')
             hold off
         end
         if par.logRestart
-            logfMod=out_o.logf-min(out_o.logf);
+            logfMod=out_o.logf-minval;
             logfMod(out_o.logRestart==0)=NaN;
             hold on
             semilogy(logfMod,'+r')
@@ -210,13 +213,11 @@ function ngmres_test_tensor_CP
         end
 
         if compareNCG==1
-            minval=min(min(out.logf),min(out_ncg.TraceFunc(2:end)));
             hold on
             semilogy(out_ncg.TraceFunc(2:end)-minval,'-*')
             hold off
         end
         if compareALS==1
-            minval=min(min(out.logf),min(fALS));
             hold on
             semilogy(fALS-minval,'-')
             hold off
