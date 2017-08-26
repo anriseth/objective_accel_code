@@ -47,10 +47,10 @@ function ngmres_test_tensor_CP
 
     % ngmres parameters
     par.w=20;      % maximum window size
-    par.maxIt=200; % maximum number of iterations
+    par.maxIt=100; % maximum number of iterations
     par.relfTol=-1;% stopping tolerance on relative change in f
     par.absgTol=-1;% stopping tolerance on the 2-norm of g
-    par.verbose=2; % level of output to screen (0=no output, 1=summary output,
+    par.verbose=0; % level of output to screen (0=no output, 1=summary output,
                    %       2=detailed output for each iteration)
     par.logfev=true; % flag to include the history of the number of f and g
                      %       evaluations in the output (true or false)
@@ -74,10 +74,11 @@ function ngmres_test_tensor_CP
     options.MaxFuncEvals=2000;
     options.MaxIters=par.maxIt;
     options.TraceFunc=true;
+    options.TraceFuncEvals=true;
     options.TraceGradNorm=true;
     options.RelFuncTol=-1;
     options.StopTol=1e-99;
-    options.Display='iter'; % iter, final or off
+    options.Display='off'; % iter, final or off
     options.RestartNW=false;
     options.Update='PR'; % 'PR', 'FR', 'HS' or 'SD'
     options.LineSearch_maxfev=20; % default: 20
@@ -124,12 +125,16 @@ function ngmres_test_tensor_CP
     if compareNCG==1
         disp('+++ start n-cg directly')
         out_ncg=ncg(@(u) tt_cp_fun(u,T,nT2),u0,options);
+        for i=2:size(out_ncg.TraceFuncEvals,2)
+            out_ncg.TraceFuncEvals(i)=out_ncg.TraceFuncEvals(i)+out_ncg.TraceFuncEvals(i-1);
+        end
     end
 
     %--------------------------------------
     % compare with ALS
     %--------------------------------------
     if compareALS==1
+        fevALS = zeros(par.maxIt);
         disp('+++ start ALS')
         u=u0;
         [f g]=tt_cp_fun(u,T,nT2);
@@ -137,6 +142,10 @@ function ngmres_test_tensor_CP
             [u,f,g,fev]=can_ALSu(T,r,u,f,g,@(u) tt_cp_fun(u,T,nT2));
             fALS(k)=f;
             gALS(k)=norm(g);
+            fevALS(k) = fev;
+        end
+        for k = 2:par.maxIt
+            fevALS(k) = fevALS(k) + fevALS(k-1);
         end
     end
 
@@ -190,36 +199,36 @@ function ngmres_test_tensor_CP
         minval = min(min(out.logf),min(out_o.logf));
         minval = min(minval,min(out_ncg.TraceFunc(2:end)));
         minval = min(minval,min(fALS));
-        semilogy(out.logf-minval,'-+')
+        semilogy(out.logfev,out.logf-minval,'-+')
         title('convergence towards the minimum value of f')
         if par.logRestart
             logfMod=out.logf-minval;
             logfMod(out.logRestart==0)=NaN;
             hold on
-            semilogy(logfMod,'+r')
+            semilogy(out.logfev,logfMod,'+r')
             hold off
         end
         if compareNGMRESO==1
             hold on
-            semilogy(out_o.logf-minval,'-o')
+            semilogy(out_o.logfev,out_o.logf-minval,'-o')
             hold off
         end
         if par.logRestart
             logfMod=out_o.logf-minval;
             logfMod(out_o.logRestart==0)=NaN;
             hold on
-            semilogy(logfMod,'+r')
+            semilogy(out_o.logfev,logfMod,'+r')
             hold off
         end
 
         if compareNCG==1
             hold on
-            semilogy(out_ncg.TraceFunc(2:end)-minval,'-*')
+            semilogy(out_ncg.TraceFuncEvals(2:end),out_ncg.TraceFunc(2:end)-minval,'-*')
             hold off
         end
         if compareALS==1
             hold on
-            semilogy(fALS-minval,'-')
+            semilogy(fevALS,fALS-minval,'-')
             hold off
         end
         if par.logRestart
@@ -227,7 +236,7 @@ function ngmres_test_tensor_CP
         else
             legend('n-gmres','n-gmres-o','n-cg','ALS')
         end
-        xlabel('iterations')
+        xlabel('f/g evaluations')
     end
 
 end
