@@ -9,16 +9,16 @@ function [f g]=func_problemD(u)
 %by Hans De Sterck, September 2011
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    n = length(u);    
+    n = length(u);
     jodd = 1:2:n-1;
     jeven = 2:2:n;
     uTransformed = zeros(n,1);
     uTransformed(jodd) = 10*(u(jeven)-u(jodd).^2);
     uTransformed(jeven) = 1-u(jodd);
-    
+
     % the value of the objective function
     f = 0.5*uTransformed'*uTransformed + 1;
-    
+
     % the gradient
     g=zeros(n,1);
     g(jodd) = -20*u(jodd).*uTransformed(jodd) - uTransformed(jeven);
