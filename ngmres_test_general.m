@@ -1,4 +1,4 @@
-function [par,out] = ngmres_test_general(seednum,plotfigs)
+function [par,out] = ngmres_test_general(seednum,probnum,n,maxit,plotfigs)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %NGMRES_TEST_GENERAL is a simple test script applying the N-GMRES
 %optimization method to a simple nonlinear optimization test problem, and
@@ -38,7 +38,7 @@ function [par,out] = ngmres_test_general(seednum,plotfigs)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     disp('*********** NEW RUN ***********')
-    par = get_par(seednum);
+    par = get_par(seednum,probnum,n,maxit);
     out = run_opts(par);
 
     %-----------------------------------------

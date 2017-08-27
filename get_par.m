@@ -1,12 +1,13 @@
-function par = get_par(seednum)
+function par = get_par(seednum,probnum,n,maxit)
    %------------------------------
    % problem description
    %------------------------------
-    par.problem=3;
+    par.problem=probnum;
     % 3: standard quadratic function with diagonal matrix A and
     %    paraboloid coordinate transformation (problem B from the
     %    paper, arXiv:1106.4426v2)
-    par.probPars{3}=[100 1e0];      % [size factor]
+    par.probPars{3}=[n 1e0];      % [size factor]
+    par.probPars{4}=[n];      % [size factor]
 
     %------------------------------
     % parameters
@@ -20,7 +21,7 @@ function par = get_par(seednum)
     par.compareLBFGS=1;        % run 7
     par.compareNGMRESO_sdls=1; % run 8
     par.compareNGMRESO_sd=1;   % run 9
-                               %
+
     par.initSeed = seednum;
 
     par.figRunFirst=7;       % which run to plot first in the figures (needs to be selected above)
@@ -48,7 +49,7 @@ function par = get_par(seednum)
 
     % ngmres parameters
     par.par_ngmres.w=20;            % maximum window size
-    par.par_ngmres.maxIt=1500;      % maximum number of iterations
+    par.par_ngmres.maxIt=maxit;      % maximum number of iterations
     par.par_ngmres.relfTol=-1;      % stopping tolerance on relative change in f
     par.par_ngmres.absgTol=-1;      % stopping tolerance on the 2-norm of g
     par.par_ngmres.verbose=0;       % level of output to screen (0=no output, 1=summary output,

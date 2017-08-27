@@ -22,6 +22,13 @@ function [out] = run_opts(par)
         fg=@(u) func_problemB(u,d,u_exact,alpha); % set the objective function for N-GMRES
     end
 
+    if par.problem==4
+        % standard quadratic function with diagonal matrix A
+        n=par.probPars{4}(1);
+        u0=rand(n,1); % generate the initial guess
+        fg=@(u) func_problemD(u); % set the objective function for N-GMRES
+    end
+
     % the steepest descent preconditioner with line search
     M_sdls=@(u,f,g) sd(u,f,g, ...
                        fg, ...        % function that computes f and g
