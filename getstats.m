@@ -1,4 +1,4 @@
-function [outarr,iters,evals] = getstats(prob)
+function [outarr,iters,evals,fails] = getstats(prob)
     probnum = prob.probnum;
     n = prob.n;
     maxits = prob.maxits;
@@ -11,7 +11,7 @@ function [outarr,iters,evals] = getstats(prob)
 
     fname = sprintf('data/problem%s%d',probname,n);
     if runopt == true
-        [outarr,iters,evals] = ngmres_stats_general(numruns,probnum,n,maxits);
+        [outarr,iters,evals,fails] = ngmres_stats_general(numruns,probnum,n,maxits);
         save(strcat(fname,'.mat'), 'outarr', 'iters', 'evals');
     else
         load(strcat(fname,'.mat'));

@@ -35,7 +35,7 @@ prob.maxits=1500;
 prob.probnum=3;
 prob.n = 100;
 prob.runopt = run3_100;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 
 %%
 % Problem B, n = 200
@@ -43,75 +43,88 @@ prob.maxits=1500;
 prob.probnum=3;
 prob.n = 200;
 prob.runopt = run3_200;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem D, n = 500
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=4;
 prob.n = 500;
 prob.runopt = run4_500;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem D, n = 1000
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=4;
 prob.n = 1000;
 prob.runopt = run4_1000;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem D, n = 50000
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=4;
 prob.n = 50000;
 prob.runopt = run4_50000;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem D, n = 100000
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=4;
 prob.n = 100000;
 prob.runopt = run4_100000;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem E, n = 100
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=5;
 prob.n = 100;
 prob.runopt = run5_100;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem E, n = 200
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=5;
 prob.n = 200;
 prob.runopt = run5_200;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem E, n = 50000
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=5;
 prob.n = 50000;
 prob.runopt = run5_50000;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem E, n = 100000
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=5;
 prob.n = 100000;
 prob.runopt = run5_100000;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem F, n = 200
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=6;
 prob.n = 200;
 prob.runopt = run6_200;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
 % Problem F, n = 500
-prob.maxits=500;
+prob.maxits=1500;
 prob.probnum=6;
 prob.n = 500;
 prob.runopt = run6_500;
-getstats(prob);
+[outarr,iters,evals,fails] = getstats(prob);
 %%
+% Problem G, n = 100
+prob.maxits=1500;
+prob.probnum=7;
+prob.n = 100;
+prob.runopt = run7_100;
+[outarr,iters,evals,fails] = getstats(prob);
+%%
+% Problem G, n = 200
+prob.maxits=1500;
+prob.probnum=7;
+prob.n = 200;
+prob.runopt = run7_200;
+[outarr,iters,evals,fails] = getstats(prob);
