@@ -168,11 +168,11 @@ while ~(finishedIt || finishedTol || finishedCrash)
         % STEP III: do a line search for globalization
         %-------------------------------------------------
         d=u_a-u_new; % search directory for the line search
-        % we'll do a restart if d is not a descent direction:
-        % (d is a descent direction if d * g_new < 0)
-        % (recal that g_new is the gradient, which is the direction of steepest ascent)
+                     % we'll do a restart if d is not a descent direction:
+                     % (d is a descent direction if d * g_new < 0)
+                     % (recal that g_new is the gradient, which is the direction of steepest ascent)
         if d' * g_new >= 0
-                restart=1;
+            restart=1;
         end
         [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new,d);
         % note: line search will normally return u_new if d is not a
@@ -183,7 +183,7 @@ while ~(finishedIt || finishedTol || finishedCrash)
         ng=norm(g);
         if par.verbose==2
             fprintf('it %d g %16.16g fev %d f %16.16g step %16.16g alpha %16.16g g_new %16.16g f_new %16.16g \n',...
-                cnt,ng,fev,f,step,norm(alpha),norm(g_new),f_new);
+                    cnt,ng,fev,f,step,norm(alpha),norm(g_new),f_new);
         end
 
         if par.logfev
@@ -203,7 +203,7 @@ while ~(finishedIt || finishedTol || finishedCrash)
         end
 
         if restart==0 % no restart, so update U and R, and Q (to store previous inner products)
-            % which column j of U and R to update
+                      % which column j of U and R to update
             j=mod(cntLoc,par.w)+1;
             U(:,j)=u;
             R(:,j)=g;
