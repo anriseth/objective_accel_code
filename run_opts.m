@@ -23,18 +23,32 @@ function [out] = run_opts(par)
     end
 
     if par.problem==4
-        % standard quadratic function with diagonal matrix A
+        % Extended Rosenbrock 
         n=par.probPars{4}(1);
         u0=rand(n,1); % generate the initial guess
         fg=@(u) func_problemD(u); % set the objective function for N-GMRES
     end
 
     if par.problem==5
-        % standard quadratic function with diagonal matrix A
+        % Extended Powell singular function
         n=par.probPars{5}(1);
         u0=rand(n,1); % generate the initial guess
         fg=@(u) func_problemE(u); % set the objective function for N-GMRES
     end
+
+    if par.problem==6
+        % Trigonometric function
+        n=par.probPars{6}(1);
+        u0=rand(n,1); % generate the initial guess
+        fg=@(u) func_problemF(u); % set the objective function for N-GMRES
+    end
+    if par.problem==7
+        % Penalty function I
+        n=par.probPars{7}(1);
+        u0=rand(n,1); % generate the initial guess
+        fg=@(u) func_problemG(u); % set the objective function for N-GMRES
+    end
+
 
     % the steepest descent preconditioner with line search
     M_sdls=@(u,f,g) sd(u,f,g, ...

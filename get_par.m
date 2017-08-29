@@ -9,6 +9,8 @@ function par = get_par(seednum,probnum,n,maxit)
     par.probPars{3}=[n 1e0]; % [size factor]
     par.probPars{4}=[n];     % [size factor]
     par.probPars{5}=[n];     % [size factor]
+    par.probPars{6}=[n];     % [size factor]
+    par.probPars{7}=[n];     % [size factor]
 
     %------------------------------
     % parameters
@@ -53,7 +55,7 @@ function par = get_par(seednum,probnum,n,maxit)
     par.par_ngmres.maxIt=maxit;      % maximum number of iterations
     par.par_ngmres.relfTol=-1;      % stopping tolerance on relative change in f
     par.par_ngmres.absgTol=-1;      % stopping tolerance on the 2-norm of g
-    par.par_ngmres.verbose=0;       % level of output to screen (0=no output, 1=summary output,
+    par.par_ngmres.verbose=2;       % level of output to screen (0=no output, 1=summary output,
                                     %       2=detailed output for each iteration)
     par.par_ngmres.logfev=true;     % flag to include the history of the number of f and g
                                     %       evaluations in the output (true or false)

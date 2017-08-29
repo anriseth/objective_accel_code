@@ -25,7 +25,7 @@ function util_ffigure_evals(par,out)
       case 9
         minval=min(out.out_ngmreso_sd.logf);
     end
-    if par.compareNGMRES_sdls==1 & par.figRunFirst~=1
+    if par.compareNGMRES_sdls==1 && par.figRunFirst~=1
         minval=min(minval,min(out.out_ngmres_sdls.logf));
     end
     if par.compareNGMRES_sd==1 & par.figRunFirst~=2
@@ -110,7 +110,7 @@ function util_ffigure_evals(par,out)
         nCurves=nCurves+1;
         legendstr{nCurves}='N-GMRES-sdls';
     end
-    if par.compareNGMRES_sd==1 & par.figRunFirst~=2
+    if par.compareNGMRES_sd==1 && par.figRunFirst~=2
         hold on
         var = out.out_ngmres_sd;
         cnum = 2;
