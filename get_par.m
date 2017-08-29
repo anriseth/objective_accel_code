@@ -54,8 +54,9 @@ function par = get_par(seednum,probnum,n,maxit)
     par.par_ngmres.w=20;            % maximum window size
     par.par_ngmres.maxIt=maxit;      % maximum number of iterations
     par.par_ngmres.relfTol=-1;      % stopping tolerance on relative change in f
-    par.par_ngmres.absgTol=-1;      % stopping tolerance on the 2-norm of g
-    par.par_ngmres.verbose=2;       % level of output to screen (0=no output, 1=summary output,
+    par.par_ngmres.absgTol=1e-14;      % stopping tolerance on the
+                                       % 2-norm of g (scaled by 1/n)
+    par.par_ngmres.verbose=0;       % level of output to screen (0=no output, 1=summary output,
                                     %       2=detailed output for each iteration)
     par.par_ngmres.logfev=true;     % flag to include the history of the number of f and g
                                     %       evaluations in the output (true or false)
@@ -81,8 +82,8 @@ function par = get_par(seednum,probnum,n,maxit)
     par.par_ncg.TraceFuncEvals=true;
     par.par_ncg.TraceFunc=true;
     par.par_ncg.TraceGradNorm=true;
-    par.par_ncg.RelFuncTol=-1;
-    par.par_ncg.StopTol=1e-300;
+    par.par_ncg.RelFuncTol=par.par_ngmres.relfTol;
+    par.par_ncg.StopTol=par.par_ngmres.absgTol;
     par.par_ncg.Display='off';                % iter, final or off
     par.par_ncg.RestartNW=false;
     par.par_ncg.Update='PR';                  % 'PR', 'FR', 'HS' or 'SD'
@@ -99,8 +100,8 @@ function par = get_par(seednum,probnum,n,maxit)
     par.par_lbfgs.TraceFuncEvals=true;
     par.par_lbfgs.TraceFunc=true;
     par.par_lbfgs.TraceGradNorm=true;
-    par.par_lbfgs.RelFuncTol=-1;
-    par.par_lbfgs.StopTol=1e-300;
+    par.par_lbfgs.RelFuncTol=par.par_ngmres.relfTol;
+    par.par_lbfgs.StopTol=par.par_ngmres.absgTol;
     par.par_lbfgs.Display='off';                % iter, final or off
     par.par_lbfgs.LineSearch_maxfev=par.maxfev; % default: 20
     par.par_lbfgs.LineSearch_ftol=1e-4;         % default: 1e-4

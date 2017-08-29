@@ -30,7 +30,7 @@ function out=ngmres(u0,fg,M,linesearch,par)
 %   par.w : maximum window size
 %   par.maxIt : maximum number of iterations
 %   par.relfTol : stopping tolerance on relative change in f
-%   par.absgTol : stopping tolerance on the 2-norm of g
+%   par.absgTol : stopping tolerance on the 2-norm of g (scaled by 1/length(u))
 %   par.verbose : level of output to screen (0=no output, 1=summary output,
 %       2=detailed output for each iteration)
 %   par.logfev : flag to include the history of the number of f and g
@@ -75,10 +75,11 @@ u=u0; % initialize the current iterate, u
 [f,g]=fg(u); % compute function value and gradient in u
 nfev=nfev+1;
 ng=norm(g);
+numu = length(u);
 
 % check convergence criteria
 finishedIt= cnt >= par.maxIt;
-finishedTol= ng <= par.absgTol ;
+finishedTol= ng <= par.absgTol*numu ;
 finishedCrash=false;
 
 while ~(finishedIt | finishedTol | finishedCrash)
@@ -201,7 +202,7 @@ while ~(finishedIt | finishedTol | finishedCrash)
 
         % check the stopping criteria
         finishedIt= cnt >= par.maxIt;
-        finishedTol= ng <= par.absgTol | abs(f-f_previous)/f_previous <= par.relfTol ;
+        finishedTol= ng <= par.absgTol*numu | abs(f-f_previous)/f_previous <= par.relfTol ;
         if finishedIt | finishedTol | finishedCrash
             break % break out of the inner while loop when one of the convergence criteria is satisfied
         end
