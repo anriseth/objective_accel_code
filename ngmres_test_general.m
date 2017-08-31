@@ -32,7 +32,7 @@ function [par,out] = ngmres_test_general(seednum,probnum,n,maxit,plotfigs)
 %   See also NGMRES, POBLANO_LINESEARCH.
 %
 %by Hans De Sterck, September 2011
-%   
+%
 % Extensions by Asbjørn Nilsen Riseth, August 2017
 % - Modularised and added features
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -47,11 +47,13 @@ function [par,out] = ngmres_test_general(seednum,probnum,n,maxit,plotfigs)
     if plotfigs == true
         figure(par.figStart+2)
         util_ffigure(par,out)
-        title(sprintf('Problem B, seed number %d', seednum))
+        title(sprintf('Problem %s, seed number %d', par.probNames{probnum}, ...
+                      seednum))
 
         figure(par.figStart+1)
         util_ffigure_evals(par,out)
-        title(sprintf('Problem B, seed number %d', seednum))
+        title(sprintf('Problem %s, seed number %d', par.probNames{probnum}, ...
+                      seednum))
     end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

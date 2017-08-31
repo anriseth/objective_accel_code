@@ -1,6 +1,10 @@
-%% 
-run3_100    = false;
-run3_200    = false;
+%%
+run1_100    = true;
+run1_200    = true;
+run2_100    = false;
+run2_200    = false;
+run3_100    = true;
+run3_200    = true;
 run4_500    = false;
 run4_1000   = false;
 run4_50000  = false;
@@ -14,7 +18,9 @@ run6_500    = true;
 run7_100    = false;
 run7_200    = false;
 
-prob.probnames{3} = 'B';
+prob.probnames{1} = 'A';
+prob.probnames{2} = 'B';
+prob.probnames{3} = 'C';
 prob.probnames{4} = 'D';
 prob.probnames{5} = 'E';
 prob.probnames{6} = 'F';
@@ -29,8 +35,38 @@ prob.order = [6, 5, 3, 4, 2, 1];
 prob.qlevels = [0.1,0.5,0.9];
 prob.numruns = 1000;
 
-%% 
+
+%%
+% Problem A, n = 100
+prob.maxits=1500;
+prob.probnum=1;
+prob.n = 100;
+prob.runopt = run1_100;
+[outarr,iters,evals,fails] = getstats(prob);
+%%
+% Problem A, n = 200
+prob.maxits=1500;
+prob.probnum=1;
+prob.n = 200;
+prob.runopt = run1_200;
+[outarr,iters,evals,fails] = getstats(prob);
+%%
 % Problem B, n = 100
+prob.maxits=1500;
+prob.probnum=2;
+prob.n = 100;
+prob.runopt = run2_100;
+[outarr,iters,evals,fails] = getstats(prob);
+
+%%
+% Problem B, n = 200
+prob.maxits=1500;
+prob.probnum=2;
+prob.n = 200;
+prob.runopt = run2_200;
+[outarr,iters,evals,fails] = getstats(prob);
+%%
+% Problem C, n = 100
 prob.maxits=1500;
 prob.probnum=3;
 prob.n = 100;
@@ -38,7 +74,7 @@ prob.runopt = run3_100;
 [outarr,iters,evals,fails] = getstats(prob);
 
 %%
-% Problem B, n = 200
+% Problem C, n = 200
 prob.maxits=1500;
 prob.probnum=3;
 prob.n = 200;

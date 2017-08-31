@@ -6,11 +6,14 @@ function par = get_par(seednum,probnum,n,maxit)
     % 3: standard quadratic function with diagonal matrix A and
     %    paraboloid coordinate transformation (problem B from the
     %    paper, arXiv:1106.4426v2)
-    par.probPars{3}=[n 1e0 1.0]; % problemB
+    par.probPars{1}=[n 1.0]; % problemA
+    par.probPars{2}=[n 1.0 1.0]; % problemB
+    par.probPars{3}=[n 1.0]; % problemC
     par.probPars{4}=[n 1.0];     % problemD
     par.probPars{5}=[n 1.0];     % problemE
     par.probPars{6}=[n 1.0];     % problemF
     par.probPars{7}=[n nan];     % problemG
+    par.probNames = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
 
     %------------------------------
     % parameters

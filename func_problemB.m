@@ -10,11 +10,11 @@ function [f g]=func_problemB(u,d,u_exact,alpha)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     u=u-u_exact;
-    uTransformed=u;
-    uTransformed(2:end)=uTransformed(2:end)-alpha*uTransformed(1)^2;
+    t=u;
+    t(2:end)=t(2:end)-alpha*t(1)^2;
 
     % the value of the objective function
-    f=0.5*uTransformed'*diag(d)*uTransformed + 1;
+    f=0.5*t'*diag(d)*t + 1;
 
     % the gradient
     g=diag(d)*u;

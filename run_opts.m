@@ -10,10 +10,19 @@ function [out] = run_opts(par)
     % the line search function for the sd preconditioner
     lineSearch_sdls=@(fg,u0,f0,g0,d) poblano_linesearch(fg,u0,f0,g0,1.,d,par.par_sdls);
 
-    if par.problem==3
-        % standard quadratic function with diagonal matrix A
-        n=par.probPars{3}(1);
-        kappa=par.probPars{3}(2);
+    if par.problem==1
+        % standard quadratic function with diagonal matrix diag(d)
+        n=par.probPars{1}(1);
+        d=[1:n]';
+        u0=rand(n,1); % generate the initial guess
+        u_exact=ones(n,1);
+        fg=@(u) func_problemA(u,d,u_exact); % set the objective function for N-GMRES
+    end
+
+    if par.problem==2
+        % Problem B
+        n=par.probPars{2}(1);
+        kappa=par.probPars{2}(2);
         d=[1:n]';
         d(n)=d(n)*kappa;
         u0=rand(n,1); % generate the initial guess
@@ -22,8 +31,20 @@ function [out] = run_opts(par)
         fg=@(u) func_problemB(u,d,u_exact,alpha); % set the objective function for N-GMRES
     end
 
+    if par.problem==3
+        % Problem C
+        n=par.probPars{3}(1);
+        d=[1:n]';
+        [Q,~] = qr(rand(n,n));
+        T = Q*diag(d)*Q';
+        u0=rand(n,1); % generate the initial guess
+        u_exact=ones(n,1);
+        alpha=10.; % factor in the paraboloid coordinate transformation
+        fg=@(u) func_problemC(u,T,u_exact,alpha); % set the objective function for N-GMRES
+    end
+
     if par.problem==4
-        % Extended Rosenbrock 
+        % Extended Rosenbrock
         n=par.probPars{4}(1);
         u0=rand(n,1); % generate the initial guess
         fg=@(u) func_problemD(u); % set the objective function for N-GMRES
