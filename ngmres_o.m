@@ -117,10 +117,12 @@ while ~(finishedIt || finishedTol || finishedCrash)
         [u_new,f_new,g_new,fev]=M(u,f,g);
         nfev=nfev+fev;
 
+        % TODO: For practical implementations, include tolerance
+        % check here (doesn't matter for the numerical experiments)
+
         % STEP II: compute the n-gmres accelerated iterate
         %-------------------------------------------------
         % compute its function value and gradient vector
-
         % form the least-squares system
         % efficiently by storing some previous inner products; see Washio
         % and Oosterlee, ETNA 6, pp. 271-290, 1997
@@ -174,6 +176,9 @@ while ~(finishedIt || finishedTol || finishedCrash)
         if d' * g_new >= 0
             restart=1;
         end
+        % TODO: This is surely a wasteful implementation by De Sterck?
+        %       I hope More-Thuente just returns u=u_new if d is
+        %       not a descent direction...
         [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new,d);
         % note: line search will normally return u_new if d is not a
         % descent direction (depending on the line search implementation)
