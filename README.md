@@ -1,12 +1,12 @@
 # Objective acceleration and nonlinear GMRES for unconstrained optimization
 
 This repository contains implementations of two optimization acceleration algorithms
-discussed in "A. N. Riseth. Objective acceleration for unconstrained optimization, 2017"
+discussed in *A. N. Riseth. Objective acceleration for unconstrained optimization, 2017*
 
 The code contains modifications of the original Matlab code provided by Hans De Sterck on his
 [website](http://math.uwaterloo.ca/amath-numerical-analysis-and-scientific-computing-group/hans-de-stercks-homepage/software-prof-hans-de-sterck/matlab-code-n-gmres-optimization).
 
-** All references to N-GMRES-O in the code correspond to the O-ACCEL algorithm in "A. N. Riseth. Objective acceleration for unconstrained optimization"**
+**All references to N-GMRES-O in the code correspond to the O-ACCEL algorithm in _A. N. Riseth. Objective acceleration for unconstrained optimization_**
 
 ## Requirements
 These files require the [Poblano toolbox](https://software.sandia.gov/trac/poblano) for MATLAB to run.
