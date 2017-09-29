@@ -1,10 +1,10 @@
 %%
 run1_100    = true;
-run1_200    = true;
+run1_200    = false;
 run2_100    = false;
 run2_200    = false;
-run3_100    = true;
-run3_200    = true;
+run3_100    = false;
+run3_200    = false;
 run4_500    = false;
 run4_1000   = false;
 run4_50000  = false;
@@ -13,8 +13,8 @@ run5_100    = false;
 run5_200    = false;
 run5_50000  = false;
 run5_100000 = false;
-run6_200    = true;
-run6_500    = true;
+run6_200    = false;
+run6_500    = false;
 run7_100    = false;
 run7_200    = false;
 
