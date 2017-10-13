@@ -1,6 +1,6 @@
 function [outarr,iters,evals,fails] = ngmres_stats_general(numruns, ...
                                                       probnum,n,maxit)
-    tol = 1e-6;
+    tol = 1e-7;
     outarr = cell(numruns,1);
     iters_ngmres_sdls = zeros(numruns,1);
     iters_ngmres_sd = zeros(numruns,1);
@@ -44,43 +44,46 @@ function [outarr,iters,evals,fails] = ngmres_stats_general(numruns, ...
                                                               end)));
         end
 
+        % Store the objective value at the initial condition
+        f0 = outarr{seednum}.out_ncg.TraceFunc(1);
+
         % Store number of iterations to reach tolerance
-        ind = find(outarr{seednum}.out_ngmres_sdls.logf < fmin+tol,1);
+        ind = find(outarr{seednum}.out_ngmres_sdls.logf < fmin+tol(f0-fmin),1);
         if isempty(ind)
             iters_ngmres_sdls(seednum) = par.par_ngmres.maxIt;
             fails_ngmres_sdls = fails_ngmres_sdls + 1;
         else
             iters_ngmres_sdls(seednum) = ind;
         end
-        ind = find(outarr{seednum}.out_ngmres_sd.logf < fmin+tol,1);
+        ind = find(outarr{seednum}.out_ngmres_sd.logf < fmin+tol(f0-fmin),1);
         if isempty(ind)
             iters_ngmres_sd(seednum) = par.par_ngmres.maxIt;
             fails_ngmres_sd = fails_ngmres_sd + 1;
         else
             iters_ngmres_sd(seednum) = ind;
         end
-        ind = find(outarr{seednum}.out_ncg.TraceFunc(2:end) < fmin+tol,1);
+        ind = find(outarr{seednum}.out_ncg.TraceFunc(2:end) < fmin+tol(f0-fmin),1);
         if isempty(ind)
             iters_ncg(seednum) = par.par_ngmres.maxIt;
             fails_ncg = fails_ncg + 1;
         else
             iters_ncg(seednum) = ind;
         end
-        ind = find(outarr{seednum}.out_lbfgs.TraceFunc(2:end) < fmin+tol,1);
+        ind = find(outarr{seednum}.out_lbfgs.TraceFunc(2:end) < fmin+tol(f0-fmin),1);
         if isempty(ind)
             iters_lbfgs(seednum) = par.par_ngmres.maxIt;
             fails_lbfgs = fails_lbfgs + 1;
         else
             iters_lbfgs(seednum) = ind;
         end
-        ind = find(outarr{seednum}.out_ngmreso_sdls.logf < fmin+tol,1);
+        ind = find(outarr{seednum}.out_ngmreso_sdls.logf < fmin+tol(f0-fmin),1);
         if isempty(ind)
             iters_ngmreso_sdls(seednum) = par.par_ngmres.maxIt;
             fails_ngmreso_sdls = fails_ngmreso_sdls + 1;
         else
             iters_ngmreso_sdls(seednum) = ind;
         end
-        ind = find(outarr{seednum}.out_ngmreso_sd.logf < fmin+tol,1);
+        ind = find(outarr{seednum}.out_ngmreso_sd.logf < fmin+tol(f0-fmin),1);
         if isempty(ind)
             iters_ngmreso_sd(seednum) = par.par_ngmres.maxIt;
             fails_ngmreso_sd = fails_ngmreso_sd + 1;
