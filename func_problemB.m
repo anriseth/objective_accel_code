@@ -14,7 +14,7 @@ function [f g]=func_problemB(u,d,u_exact,alpha)
     t(2:end)=t(2:end)-alpha*t(1)^2;
 
     % the value of the objective function
-    f=0.5*t'*diag(d)*t + 1;
+    f=0.5*t'*diag(d)*t;
 
     % the gradient
     g=diag(d)*u;

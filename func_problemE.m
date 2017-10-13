@@ -22,7 +22,7 @@ function [f g]=func_problemE(u)
     t(j4) = sqrt(10)*(u(j1)-u(j4)).^2;
    
     % the value of the objective function
-    f = 0.5*t'*t + 1;
+    f = 0.5*t'*t;
 
     % the gradient
     g=zeros(n,1);

@@ -9,13 +9,13 @@ function [f g]=func_problemG(u)
 %by Hans De Sterck, September 2011
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     n = length(u);
-    
+
     t = sqrt(1e-5)*(u-1);
     t(n+1) = sum(u.^2)-0.25;
     % TODO: find out what the minimum value is
-    f = 0.5*t'*t + 1; 
-    
-    
+    f = 0.5*t'*t;
+
+
     % the gradient
     %g = sum(t)*sin(u) - t.*((1:n)'.*sin(u)+cos(u));
     g = sqrt(1e-5)*t(1:end-1) + 2*u.*t(end);

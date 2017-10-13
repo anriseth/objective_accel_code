@@ -12,7 +12,7 @@ function [f g]=func_problemF(u)
     scosu = sum(cos(u));
     
     t = n-scosu-(1:n)'.*(1-cos(u))-sin(u);
-    f = 0.5*t'*t + 1;
+    f = 0.5*t'*t;
 
     % the gradient
     g = sum(t)*sin(u) - t.*((1:n)'.*sin(u)+cos(u));

@@ -17,7 +17,7 @@ function [f g]=func_problemD(u)
     uTransformed(jeven) = 1-u(jodd);
 
     % the value of the objective function
-    f = 0.5*uTransformed'*uTransformed + 1;
+    f = 0.5*uTransformed'*uTransformed;
 
     % the gradient
     g=zeros(n,1);
