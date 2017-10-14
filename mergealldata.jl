@@ -72,20 +72,20 @@ fevs[failidx] .= -1
 
 plt = performance_profile(fevs,printnames;title="\$f/g\$ evaluations",
                           logscale=false,
-                          sampletol = 3e-2,
+                          sampletol = 1.5e-2,
                           xscale=:log2,
                           xlims=(1,2^3.5),
                           ylims=(0,1));
 algs = [1,5]
 pltsd = performance_profile(fevs[:,algs],printnames[algs];title="\$f/g\$ evaluations",
                             logscale=false,
-                            sampletol = 2e-2,
+                            sampletol = 1e-2,
                             xscale=:log2, xlims=(1,5),
                             ylims=(0,1));
 algs = [2,6]
 pltls = performance_profile(fevs[:,algs],printnames[algs],title="\$f/g\$ evaluations";
                             logscale=false,
-                            sampletol = 2e-2,
+                            sampletol = 1e-2,
                             xscale=:log2, xlims=(1,6),
                             ylims=(0,1));
 
