@@ -12,8 +12,6 @@ function [f g]=func_problemC(u,T,u_exact,alpha)
     n = length(u);
     u=u-u_exact;
     
-    cond(T)
-    
     t=u;
     t(2:end)=t(2:end)-alpha*t(1)^2;
     
