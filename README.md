@@ -27,7 +27,7 @@ ngmres_test_general(0,1,200,400,true)
 
 
 
-BibTeX reference for article:
+## BibTeX reference for article:
 ```
 @article{riseth2017objective,
    author = {Riseth, Asbj{\o}rn N.},
