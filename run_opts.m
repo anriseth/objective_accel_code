@@ -10,13 +10,25 @@ function [out] = run_opts(par)
     % the line search function for the sd preconditioner
     lineSearch_sdls=@(fg,u0,f0,g0,d) poblano_linesearch(fg,u0,f0,g0,1.,d,par.par_sdls);
 
+    if par.problem==8
+        % standard quadratic function with random matrix of
+        % condition number n
+        n=par.probPars{8}(1);
+        [Q,~] = qr(rand(n,n));
+        T = Q*diag(d)*Q';
+        u0=rand(n,1); % generate the initial guess
+        u_exact=ones(n,1);
+        fg=@(u) func_problemQuadratic(u,T,u_exact); % set the
+                                                    % objective function
+    end
+
     if par.problem==1
-        % standard quadratic function with diagonal matrix diag(d)
+        % Problem A
         n=par.probPars{1}(1);
         d=[1:n]';
         u0=rand(n,1); % generate the initial guess
         u_exact=ones(n,1);
-        fg=@(u) func_problemA(u,d,u_exact); % set the objective function for N-GMRES
+        fg=@(u) func_problemA(u,d,u_exact); % set the objective function
     end
 
     if par.problem==2
@@ -28,7 +40,7 @@ function [out] = run_opts(par)
         u0=rand(n,1); % generate the initial guess
         u_exact=ones(n,1);
         alpha=10.; % factor in the paraboloid coordinate transformation
-        fg=@(u) func_problemB(u,d,u_exact,alpha); % set the objective function for N-GMRES
+        fg=@(u) func_problemB(u,d,u_exact,alpha); % set the objective function
     end
 
     if par.problem==3
@@ -40,34 +52,34 @@ function [out] = run_opts(par)
         u0=rand(n,1); % generate the initial guess
         u_exact=ones(n,1);
         alpha=10.; % factor in the paraboloid coordinate transformation
-        fg=@(u) func_problemC(u,T,u_exact,alpha); % set the objective function for N-GMRES
+        fg=@(u) func_problemC(u,T,u_exact,alpha); % set the objective function
     end
 
     if par.problem==4
         % Extended Rosenbrock
         n=par.probPars{4}(1);
         u0=rand(n,1); % generate the initial guess
-        fg=@(u) func_problemD(u); % set the objective function for N-GMRES
+        fg=@(u) func_problemD(u); % set the objective function
     end
 
     if par.problem==5
         % Extended Powell singular function
         n=par.probPars{5}(1);
         u0=rand(n,1); % generate the initial guess
-        fg=@(u) func_problemE(u); % set the objective function for N-GMRES
+        fg=@(u) func_problemE(u); % set the objective function
     end
 
     if par.problem==6
         % Trigonometric function
         n=par.probPars{6}(1);
         u0=rand(n,1); % generate the initial guess
-        fg=@(u) func_problemF(u); % set the objective function for N-GMRES
+        fg=@(u) func_problemF(u); % set the objective function
     end
     if par.problem==7
         % Penalty function I
         n=par.probPars{7}(1);
         u0=rand(n,1); % generate the initial guess
-        fg=@(u) func_problemG(u); % set the objective function for N-GMRES
+        fg=@(u) func_problemG(u); % set the objective function
     end
 
 
