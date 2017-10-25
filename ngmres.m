@@ -41,6 +41,7 @@ function out=ngmres(u0,fg,M,linesearch,par)
 %       vectors in the output (true or false)
 %   par.logRestart : flag to include the history of the restarts (true or
 %       false)
+%   par.epsi : parameter used in regularizing the normal equation system
 %
 % OUTPUT:
 % out: ngmres output
@@ -57,10 +58,13 @@ function out=ngmres(u0,fg,M,linesearch,par)
 %  See also NGMRES_TEST_GENERAL, CP_NGMRES, NGMRES_TEST_TENSOR_CP
 %
 %by Hans De Sterck, September 2011
+% CHANGES BY: ASBJØRN NILSEN RISETH, 2017
+%             anriseth@gmail.com
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % some fixed parameters used in the algorithm
-epsi=1e-12; % parameter used in regularizing the normal equation system
+epsi=par.epsi; % parameter used in regularizing the normal equation system
 
 % some initialization
 n=size(u0,1); % number of components in the u vectors

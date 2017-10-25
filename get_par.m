@@ -55,6 +55,7 @@ function par = get_par(seednum,probnum,n,maxit)
     par.mispace{9} = 10;
 
     % ngmres parameters
+    par.par_ngmres.epsi=1e-12;       % Regularization parameter for normal system
     par.par_ngmres.w=20;            % maximum window size
     par.par_ngmres.maxIt=maxit;      % maximum number of iterations
     par.par_ngmres.relfTol=-1;      % stopping tolerance on relative change in f
