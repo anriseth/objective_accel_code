@@ -10,7 +10,7 @@ function out=ngmres(u0,fg,M,linesearch,par)
 %       Tensor Decomposition", SIAM J. Sci. Comput. 34, A1351-A1379, 2012.
 %      -Hans De Sterck, "Steepest Descent Preconditioning for Nonlinear GMRES
 %       Optimization", Numerical Linear Algebra with Applications 20, 453-471, 2013.
-% 
+%
 % INPUT:
 % u0: initial guess (column vector)
 % [f,g] = fg(u): fg is a function handle to a function that computes
@@ -94,28 +94,28 @@ while ~(finishedIt | finishedTol | finishedCrash)
 
     restart=0; % no restart for now
     curw=1; % current window size (starts at 1, grows up to par.w)
-    
+
     % start a sequence of accelerated updates, build towards window size w, but exit if a restart is required
     cntLoc=0; % counter of number of iterations since the last restart
     while restart==0
         cnt=cnt+1; % the very first new aproximation has cnt=1 (the initial guess is not counted) (but it is part of the window for acceleration!)
         cntLoc=cntLoc+1;
-        
+
         f_previous=f; % save the function value of the previous iterate for convergence test
 
         % STEP I: get a new unaccelerated iterate
         %-------------------------------------------------
         [u_new,f_new,g_new,fev]=M(u,f,g);
         nfev=nfev+fev;
-        
+
         % STEP II: compute the n-gmres accelerated iterate
         %-------------------------------------------------
         % compute its function value and gradient vector
-        
+
         % form the least-squares system
         % efficiently by storing some previous inner products; see Washio
         % and Oosterlee, ETNA 6, pp. 271-290, 1997
-        
+
         eta=g_new'*g_new;
         for i=1:curw % iterations in window
             ksi(i)=g_new'*R(:,i);
@@ -125,43 +125,58 @@ while ~(finishedIt | finishedTol | finishedCrash)
             for j=1:curw % iterations in window
                 Mat(i,j)=Q(i,j)-ksi(i)-ksi(j)+eta;
             end
-        end        
-                
+        end
+
         %delta=epsi*max(diag(Mat)+1e-16);
         delta=epsi*max(max(diag(Mat)),epsi); % the outer max is to avoid delta=0, which may occur if Mat=0, e.g. at numerical convergence
 
-        % solve the normal equation system        
+        % solve the normal equation system
         alpha=(Mat(1:curw,1:curw)+delta*eye(size(Mat(1:curw,1:curw),1))) \ beta(1:curw);
-        
+
         % we could alternatively use Matlab's \ to solve the LS system...
         %matlabLS=0;
         %if matlabLS==1
         %    alpha=-Z\g_new;
         %end
-        
+
         if isnan(norm(alpha)) % this does not seem to happen, but just in case
             finishedCrash=true;
             disp('+++++ WARNING: ngmres exit due to NaN')
         end
-        
+
         % compute the accelerated approximation
-        coef=1-sum(alpha);            
+        coef=1-sum(alpha);
         u_a=coef*u_new;
 
         for w=1:curw
             u_a=u_a+alpha(w)*U(:,w);
         end
-        
+
         % STEP III: do a line search for globalization
         %-------------------------------------------------
         d=u_a-u_new; % search directory for the line search
-        % we'll do a restart if d is not a descent direction: 
-        % (d is a descent direction if d * g_new < 0)
-        % (recal that g_new is the gradient, which is the direction of steepest ascent)
+                     % we'll do a restart if d is not a descent direction:
+                     % (d is a descent direction if d * g_new < 0)
+                     % (recal that g_new is the gradient, which is the direction of steepest ascent)
         if d' * g_new >= 0
-                restart=1;
+            restart=1;
+            if isempty(linesearch)
+                u = u_new;
+                f = f_new;
+                g = g_new;
+                step = 0.0;
+                fev = 0;
+            else
+                [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new, ...
+                                              d);
+            end
+        else
+            u = u_a;
+            [f,g] = fg(u);
+            step = 1.0;
+            fev = 1;
         end
-        [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new,d);
+
         % note: line search will normally return u_new if d is not a
         % descent direction (depending on the line search implementation)
         nfev=nfev+fev;
@@ -170,17 +185,17 @@ while ~(finishedIt | finishedTol | finishedCrash)
         ng=norm(g);
         if par.verbose==2
             fprintf('it %d g %16.16g fev %d f %16.16g step %16.16g alpha %16.16g g_new %16.16g f_new %16.16g \n',...
-                cnt,ng,fev,f,step,norm(alpha),norm(g_new),f_new);
+                    cnt,ng,fev,f,step,norm(alpha),norm(g_new),f_new);
         end
-        
+
         if par.logfev
             logfev(cnt)=nfev;
         end
-        
+
         if par.logf
             logf(cnt)=f;
         end
-        
+
         if par.logg
             logg(cnt)=ng;
         end
@@ -188,9 +203,9 @@ while ~(finishedIt | finishedTol | finishedCrash)
         if curw<par.w
             curw=curw+1;
         end
-        
+
         if restart==0 % no restart, so update U and R, and Q (to store previous inner products)
-            % which column j of U and R to update
+                      % which column j of U and R to update
             j=mod(cntLoc,par.w)+1;
             U(:,j)=u;
             R(:,j)=g;

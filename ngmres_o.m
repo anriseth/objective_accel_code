@@ -175,13 +175,23 @@ while ~(finishedIt || finishedTol || finishedCrash)
                      % (recal that g_new is the gradient, which is the direction of steepest ascent)
         if d' * g_new >= 0
             restart=1;
+            if isempty(linesearch)
+                u = u_new;
+                f = f_new;
+                g = g_new;
+                step = 0.0;
+                fev = 0;
+            else
+                [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new, ...
+                                              d);
+            end
+        else
+            u = u_a;
+            [f,g] = fg(u);
+            step = 1.0;
+            fev = 1;
         end
-        % TODO: This is surely a wasteful implementation by De Sterck?
-        %       I hope More-Thuente just returns u=u_new if d is
-        %       not a descent direction...
-        [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new,d);
-        % note: line search will normally return u_new if d is not a
-        % descent direction (depending on the line search implementation)
+
         nfev=nfev+fev;
 
         % provide some output and get some log information
