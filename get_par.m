@@ -13,7 +13,8 @@ function par = get_par(seednum,probnum,n,maxit)
     par.probPars{5}=[n 0.0];     % problemE
     par.probPars{6}=[n 0.0];     % problemF
     par.probPars{7}=[n nan];     % problemG
-    par.probNames = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+    par.probPars{8}=[n 0.0];     % problemQuadratic
+    par.probNames = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'Q'};
 
     %------------------------------
     % parameters

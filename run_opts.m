@@ -15,6 +15,7 @@ function [out] = run_opts(par)
         % condition number n
         n=par.probPars{8}(1);
         [Q,~] = qr(rand(n,n));
+        d=[1:n]';
         T = Q*diag(d)*Q';
         u0=rand(n,1); % generate the initial guess
         u_exact=ones(n,1);
