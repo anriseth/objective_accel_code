@@ -100,7 +100,7 @@ function [out] = run_opts(par)
                                  lineSearch_ngmres,... % line search function
                                  par.par_ngmres);      % ngmres parameters
     end
-    if par.compareNGMRESO_sdls==1; % first N-GMRES, preconditioner: SD with line search
+    if par.compareNGMRESO_sdls==1; % first N-GMRES-O, preconditioner: SD with line search
         disp('+++ start n-gmres-o with sdls preconditioner')
         out.out_ngmreso_sdls=ngmres_o(u0, ...               % initial guess
                                       fg, ...               % function that computes f and g
@@ -108,7 +108,7 @@ function [out] = run_opts(par)
                                       lineSearch_ngmres,... % line search function
                                       par.par_ngmres);      % ngmres parameters
     end
-    if par.compareNGMRES_sd==1; % then N-GMRES, preconditioner: SD with small step
+    if par.compareNGMRESO_sd==1; % then N-GMRES-O, preconditioner: SD with small step
         disp('+++ start n-gmreso with descent preconditioner')
         out.out_ngmreso_sd=ngmres_o(u0, ...               % initial guess
                                     fg, ...               % function that computes f and g
