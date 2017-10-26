@@ -157,7 +157,7 @@ while ~(finishedIt || finishedTol || finishedCrash)
 
         if isnan(norm(alpha)) % this does not seem to happen, but just in case
             finishedCrash=true;
-            disp('+++++ WARNING: ngmres exit due to NaN')
+            disp('+++++ WARNING: ngmres-o exit due to NaN')
         end
 
         % compute the accelerated approximation
@@ -176,21 +176,21 @@ while ~(finishedIt || finishedTol || finishedCrash)
                      % (recal that g_new is the gradient, which is the direction of steepest ascent)
         if d' * g_new >= 0
             restart=1;
-            if isempty(linesearch)
-                u = u_new;
-                f = f_new;
-                g = g_new;
-                step = 0.0;
-                fev = 0;
-            else
-                [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new, ...
-                                              d);
-            end
+            u = u_new;
+            f = f_new;
+            g = g_new;
+            step = 0.0;
+            fev = 0;
         else
-            u = u_a;
-            [f,g] = fg(u);
-            step = 1.0;
-            fev = 1;
+            if isempty(linesearch)
+                u = u_a;
+                [f,g] = fg(u);
+                step = 1.0;
+                fev = 1;
+            else
+                [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new, d);
+
+            end
         end
 
         nfev=nfev+fev;
