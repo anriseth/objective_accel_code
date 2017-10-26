@@ -132,7 +132,7 @@ while ~(finishedIt | finishedTol | finishedCrash)
         end
 
         %delta=epsi*max(diag(Mat)+1e-16);
-        delta=epsi*max(max(diag(Mat)),epsi); % the outer max is to avoid delta=0, which may occur if Mat=0, e.g. at numerical convergence
+        delta=epsi*max(max(diag(Mat(1:curw,1:curw))),epsi); % the outer max is to avoid delta=0, which may occur if Mat=0, e.g. at numerical convergence
 
         % solve the normal equation system
         alpha=(Mat(1:curw,1:curw)+delta*eye(size(Mat(1:curw,1:curw),1))) \ beta(1:curw);
@@ -177,12 +177,9 @@ while ~(finishedIt | finishedTol | finishedCrash)
                 fev = 1;
             else
                 [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new, d);
-
             end
         end
 
-        % note: line search will normally return u_new if d is not a
-        % descent direction (depending on the line search implementation)
         nfev=nfev+fev;
 
         % provide some output and get some log information

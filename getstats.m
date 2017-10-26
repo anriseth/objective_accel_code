@@ -9,6 +9,7 @@ function [outarr,iters,evals,fails] = getstats(prob)
     runopt = prob.runopt;
     order = prob.order;
 
+    fprintf('*******\n Run Problem %s, n=%d\n********\n',probname,n);
     fname = sprintf('data/problem%s%d',probname,n);
     if runopt == true
         [outarr,iters,evals,fails] = ngmres_stats_general(numruns,probnum,n,maxits);
