@@ -1,6 +1,6 @@
 function [f g]=func_problemF(u)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%this function implements optimization test problem B from "Steepest
+%this function implements optimization test problem F from "Steepest
 %Descent Preconditioning for Nonlinear GMRES Optimization" by Hans De
 %Sterck, arXiv:1106.4426v2, 2011
 %
@@ -10,7 +10,10 @@ function [f g]=func_problemF(u)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     n = length(u);
     scosu = sum(cos(u));
-    
+
+    % NOTE: De Sterck uses a minus sign in front of (1:n),
+    %       however, the original function in Moré et. al
+    %       uses a plus sign.
     t = n-scosu-(1:n)'.*(1-cos(u))-sin(u);
     f = 0.5*t'*t;
 

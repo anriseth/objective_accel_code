@@ -1,6 +1,6 @@
 function [f g]=func_problemD(u)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%this function implements optimization test problem B from "Steepest
+%this function implements optimization test problem D from "Steepest
 %Descent Preconditioning for Nonlinear GMRES Optimization" by Hans De
 %Sterck, arXiv:1106.4426v2, 2011
 %
