@@ -188,8 +188,13 @@ while ~(finishedIt || finishedTol || finishedCrash)
                 step = 1.0;
                 fev = 1;
             else
-                [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new, d);
-
+                % De Sterck originally had a bug here.
+                % He used
+                % [u,f,g,step,fev] = linesearch(fg,u_new,f_new,g_new, d);
+                % The fifth output from the poblano linesearch, however,
+                % is the info number from More Thuente.
+                % Which often returns 1, even though fev > 1
+                [u,f,g,step,~,fev] = linesearch(fg,u_new,f_new,g_new, d);
             end
         end
 
