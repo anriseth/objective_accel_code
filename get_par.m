@@ -72,7 +72,7 @@ function par = get_par(seednum,probnum,n,maxit)
 
     % ngmres line search parameters (for poblano_linesearch)
     par.par_ngmres.LineSearch_ftol=1.000000000000000e-04;
-    par.par_ngmres.LineSearch_gtol=0.010000000000000;
+    par.par_ngmres.LineSearch_gtol=1e-1; % De Sterck papper default 1e-2
     par.par_ngmres.LineSearch_initialstep=1;
     par.par_ngmres.LineSearch_maxfev=par.maxfev;
     par.par_ngmres.LineSearch_method='more-thuente';
@@ -94,7 +94,7 @@ function par = get_par(seednum,probnum,n,maxit)
     par.par_ncg.Update='PR';                  % 'PR', 'FR', 'HS' or 'SD'
     par.par_ncg.LineSearch_maxfev=par.maxfev; % default: 20
     par.par_ncg.LineSearch_ftol=1e-4;         % default: 1e-4
-    par.par_ncg.LineSearch_gtol=1e-2;         % default: 1e-2
+    par.par_ncg.LineSearch_gtol=1e-1; % De Sterck papper default 1e-2
     par.par_ncg.LineSearch_initialstep=1;
 
     % lbfgs parameters (for comparing lbfgs with ngmres)
@@ -110,12 +110,12 @@ function par = get_par(seednum,probnum,n,maxit)
     par.par_lbfgs.Display='off';                % iter, final or off
     par.par_lbfgs.LineSearch_maxfev=par.maxfev; % default: 20
     par.par_lbfgs.LineSearch_ftol=1e-4;         % default: 1e-4
-    par.par_lbfgs.LineSearch_gtol=1e-2;         % default: 1e-2
+    par.par_lbfgs.LineSearch_gtol=1e-1; % De Sterck papper default 1e-2
     par.par_lbfgs.LineSearch_initialstep=1;
 
     % steepest decent line search parameters (for using SD as a preconditioner)
     par.par_sdls.LineSearch_ftol=1.000000000000000e-04;
-    par.par_sdls.LineSearch_gtol=0.010000000000000;
+    par.par_sdls.LineSearch_gtol=1e-1; % De Sterck papper default 1e-2
     par.par_sdls.LineSearch_initialstep=1;
     par.par_sdls.LineSearch_maxfev=par.maxfev;
     par.par_sdls.LineSearch_method='more-thuente';
