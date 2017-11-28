@@ -26,7 +26,8 @@ function writefile(data, fname,algnames)
     close(fid)
 end
 
-basename = "data/problem"
+basedir = "data/"
+basename = basedir*"/problem"
 # TODO: could just loop over all mat-files in data/
 #probnames = ["A","B","C","D","E","F","G"]
 probsizes = Dict("A" => [100,200], "B" => [100,200], "C" => [100,200],
@@ -36,8 +37,8 @@ algnames = ["ngmreso_sd", "ngmreso_sdls", "ncg", "lbfgs", "ngmres_sd", "ngmres_s
 
 iters, fevs = extractfrommat(basename,probsizes,algnames)
 
-writefile(iters,"data/iters_AG.csv",algnames)
-writefile(fevs,"data/fevs_AG.csv",algnames)
+writefile(iters,basedir*"/iters_AG.csv",algnames)
+writefile(fevs,basedir*"/fevs_AG.csv",algnames)
 
 
 function extractfromcsv(name)
