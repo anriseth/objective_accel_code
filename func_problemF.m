@@ -14,10 +14,11 @@ function [f g]=func_problemF(u)
     % NOTE: De Sterck uses a minus sign in front of (1:n),
     %       however, the original function in Moré et. al
     %       uses a plus sign.
-    t = n-scosu-(1:n)'.*(1-cos(u))-sin(u);
+    %       We use the plus sign
+    t = n-scosu+(1:n)'.*(1-cos(u))-sin(u);
     f = 0.5*t'*t;
 
     % the gradient
-    g = sum(t)*sin(u) - t.*((1:n)'.*sin(u)+cos(u));
+    g = sum(t)*sin(u) + t.*((1:n)'.*sin(u)-cos(u));
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

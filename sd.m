@@ -7,6 +7,12 @@ function [u,f,g,fev]=sd(u,f,g,fg,lsearch,par)
 
 % do one steepest descent iteration
     d=-g;
-    [u,f,g,step,fev] = lsearch(fg,u,f,g,d);
+    % De Sterck originally had a bug here.
+    % He used
+    % [u,f,g,step,fev] = lsearch(fg,u,f,g,d);
+    % The fifth output from the poblano linesearch, however,
+    % is the info number from More Thuente.
+    % Which often returns 1, even though fev > 1
+    [u,f,g,step,~,fev] = lsearch(fg,u,f,g,d);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
