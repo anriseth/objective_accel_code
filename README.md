@@ -4,7 +4,7 @@ This repository contains implementations of two optimization acceleration algori
 discussed in *A.N. Riseth. Objective acceleration for unconstrained optimization, 2017*
 
 The code contains modifications of the original Matlab code provided by Hans De Sterck on his
-[website](http://math.uwaterloo.ca/amath-numerical-analysis-and-scientific-computing-group/hans-de-stercks-homepage/software-prof-hans-de-sterck/matlab-code-n-gmres-optimization).
+[website](http://www.hansdesterck.net/Publications-by-topic/nonlinear-preconditioning-for-nonlinear-optimization).
 
 **All references to N-GMRES-O in the code correspond to the O-ACCEL algorithm in _A. N. Riseth. Objective acceleration for unconstrained optimization_**
 
