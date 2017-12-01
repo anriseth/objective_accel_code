@@ -57,7 +57,7 @@ pgfplots()
 failits = 1500
 failidx = find(iters.== failits)
 
-printnames = [ "O-ACCEL-B", "O-ACCEL-A", "NCG", "LBFGS", "N-GMRES-B", "N-GMRES-A"]
+printnames = [ "O-ACCEL-B", "O-ACCEL-A", "N-CG", "L-BFGS", "N-GMRES-B", "N-GMRES-A"]
 iters = convert.(Float64,iters)
 fevs = convert.(Float64,fevs)
 iters[failidx] .= -1
