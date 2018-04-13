@@ -29,6 +29,11 @@ function par = get_par(seednum,probnum,n,maxit)
     par.compareNGMRESO_sdls=1; % run 8
     par.compareNGMRESO_sd=1;   % run 9
 
+    % running parameters for the Tensor test problem
+    par.compareNGMRESO_ALS=1;  % run 10
+    par.compareNGMRES_ALS=1;   % run 11
+    par.compareALS=1;          % run 12
+
     par.initSeed = seednum;
 
     par.figRunFirst=7;       % which run to plot first in the figures (needs to be selected above)
@@ -46,6 +51,9 @@ function par = get_par(seednum,probnum,n,maxit)
     par.fs{7}='-vk';
     par.fs{8}=':ok';
     par.fs{9}='-ok';
+    par.fs{10}=':k';  % overlaps with 1!
+    par.fs{11}='--k'; % overlaps with 5!
+    par.fs{12}=':ok'; % overlaps with 8!
     par.mispace{1} = 10;
     par.mispace{2} = 10;
     par.mispace{4} = 10;
@@ -53,6 +61,9 @@ function par = get_par(seednum,probnum,n,maxit)
     par.mispace{7} = 10;
     par.mispace{8} = 10;
     par.mispace{9} = 10;
+    par.mispace{10} = 10;
+    par.mispace{11} = 10;
+    par.mispace{12} = 10;
 
     % ngmres parameters
     par.par_ngmres.epsi=1e-12;       % Regularization parameter for normal system
