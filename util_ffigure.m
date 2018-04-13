@@ -7,11 +7,11 @@ function util_ffigure(par,out)
 % Edited by Asbjørn Nilsen Riseth, April 2018
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    nCurves=1;
+    nCurves=0;
     % first determine the minimum value of f (because we will plot the
     % convergence of f to the minimum value achieved in any of the
     % tests)
-    minval = Inf
+    minval = Inf;
     if par.compareNGMRES_sdls==1
         minval=min(minval,min(out.out_ngmres_sdls.logf));
     end
@@ -43,7 +43,6 @@ function util_ffigure(par,out)
         minval=min(minval,min(out.out_als.logf));
     end
     
-    hold on
     if par.compareNGMRES_sdls==1
         var = out.out_ngmres_sdls;
         cnum = 1;
@@ -52,6 +51,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='N-GMRES-sdls';
+        hold on
     end
     if par.compareNGMRES_sd==1
         var = out.out_ngmres_sd;
@@ -61,6 +61,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='N-GMRES-sd';
+        hold on
     end
     if par.compareNCG==1
         var = out.out_ncg;
@@ -70,6 +71,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='N-CG';
+        hold on
     end
     if par.compare_sdls==1
         var = out.out_sdls;
@@ -79,6 +81,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='sdls';
+        hold on
     end
     if par.compareLBFGS==1
         var = out.out_lbfgs;
@@ -88,6 +91,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='L-BFGS';
+        hold on
     end
     if par.compareNGMRESO_sdls==1
         var = out.out_ngmreso_sdls;
@@ -97,6 +101,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='N-GMRES-O-sdls';
+        hold on
     end
     if par.compareNGMRESO_sd==1 
         var = out.out_ngmreso_sd;
@@ -106,6 +111,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='N-GMRES-O-sd';
+        hold on
     end
     if par.compareNGMRESO_ALS==1 
         var = out.out_ngmreso_als;
@@ -115,6 +121,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='N-GMRES-O-ALS';
+        hold on
     end
     if par.compareNGMRES_ALS==1 
         var = out.out_ngmres_als;
@@ -124,6 +131,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='N-GMRES-ALS';
+        hold on
     end
     if par.compareALS==1 
         var = out.out_als;
@@ -133,6 +141,7 @@ function util_ffigure(par,out)
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)
         nCurves=nCurves+1;
         legendstr{nCurves}='ALS';
+        hold on
     end
 
     % optionally indicate the restart points in red for the N-GMRES runs

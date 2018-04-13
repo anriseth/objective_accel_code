@@ -30,9 +30,9 @@ function par = get_par(seednum,probnum,n,maxit)
     par.compareNGMRESO_sd=1;   % run 9
 
     % running parameters for the Tensor test problem
-    par.compareNGMRESO_ALS=1;  % run 10
-    par.compareNGMRES_ALS=1;   % run 11
-    par.compareALS=1;          % run 12
+    par.compareNGMRESO_ALS=0;  % run 10
+    par.compareNGMRES_ALS=0;   % run 11
+    par.compareALS=0;          % run 12
 
     par.initSeed = seednum;
 

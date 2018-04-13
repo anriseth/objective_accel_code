@@ -56,7 +56,7 @@ function ngmres_test_tensor_CP
     c=0.9; % collinearity
     pars=[s c r l1 l2];
     T=can_createTensorDense(pars);
-    fg = @(u) tt_cp_fun(u,T,nT2)
+    fg = @(u) tt_cp_fun(u,T,nT2);
 
     % Steepest descent preconditioner without linesearch
     M_sd=@(u,f,g) descentDir(u,f,g, ...
@@ -137,6 +137,6 @@ function ngmres_test_tensor_CP
     %--------------------------------------
 
 
-
+    % TODO: Start here (run util_ffigure)
 
 end
