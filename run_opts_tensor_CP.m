@@ -43,7 +43,8 @@ function [out] = run_opts_tensor_CP(par)
     %--------------------------------------
     % call ngmres-als
     %--------------------------------------
-    if par.compareNGMRESO_ALS==1
+    if par.compareNGMRES_ALS==1
+        disp('+++ start n-gmres with ALS preconditioner')
         out.out_ngmres_als=ngmres(u0, ...               % initial guess
                            fg, ...               % function that computes f and g
                            M_als, ...            % preconditioner function
@@ -55,6 +56,7 @@ function [out] = run_opts_tensor_CP(par)
     % call other solvers for comparison
     %--------------------------------------
     if par.compareNGMRESO_ALS==1
+        disp('+++ start n-gmres-o with ALS preconditioner')
         out.out_ngmreso_als=ngmres_o(u0, ...               % initial guess
                              fg, ...               % function that computes f and g
                              M_als, ...            % preconditioner function
