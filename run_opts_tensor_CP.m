@@ -16,6 +16,7 @@ function [out] = run_opts_tensor_CP(par)
     l2=1; % magnitude of the second type of noise
     c=0.9; % collinearity
     pars=[s c r l1 l2];
+    %% TODO: Save pars in par (from get_par)
     T=can_createTensorDense(pars);
 
 

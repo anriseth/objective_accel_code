@@ -5,6 +5,4 @@ function retstr = latextable(quantiles, names, order)
                                         quantiles(order(ii),1), ...
                                         quantiles(order(ii),2), quantiles(order(ii),3)));
     end
-    
 end
-

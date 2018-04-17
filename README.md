@@ -36,6 +36,9 @@ To show convergence plots for an instance of the problem, call
 ngmres_test_tensor_CP(0,600,true)
 ```
 
+**`runme_writestats_tensor_CP.m`** Runs 1000 instances the tensor CP problem and
+writes the statistics to file in the directory `data`.
+
 
 ## BibTeX reference for article:
 ```
