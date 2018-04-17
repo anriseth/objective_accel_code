@@ -15,16 +15,26 @@ These files require the [Poblano toolbox](https://software.sandia.gov/trac/pobla
 
 **`ngmres.m`** The N-GMRES algorithm as implemented by De Sterck
 
-**`ngmres_o.m`** The Objective Acceleration algorithm by Riseth, following the same structure as `ngmres.o`.
+**`ngmres_o.m`** The Objective Acceleration algorithm by Riseth,
+following the same structure as `ngmres.o`.
 
-**`ngmres_test_general.m`** Provides convergence plots for the different algorithms.
+
+**`ngmres_test_general.m`** Provides convergence plots for the
+different algorithms.
 To show convergence plots for an instance of Problem A, with n=200, call
 ``` matlab
 ngmres_test_general(0,1,200,400,true)
 ```
 
-**`runme_writestats.m`** Runs 1000 instances of each test problem and writes the statistics to file in the directory `data`.
+**`runme_writestats.m`** Runs 1000 instances of each test problem and
+writes the statistics to file in the directory `data`.
 
+**`ngmres_test_tensor_CP.m`** Provides convergence plots for the
+different algorithms on the tensor CP decomposition problem.
+To show convergence plots for an instance of the problem, call
+``` matlab
+ngmres_test_tensor_CP(0,600,true)
+```
 
 
 ## BibTeX reference for article:

@@ -1,4 +1,4 @@
-function ngmres_test_tensor_CP
+function [par,out] = ngmres_test_tensor_CP(seednum, maxit, plotfigs)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %NGMRES_TEST_TENSOR_CP is a simple test script applying the N-GMRES
 %optimization method with ALS preconditioning to a canonical tensor
@@ -33,15 +33,26 @@ function ngmres_test_tensor_CP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     disp('*********** NEW RUN ***********')
-    clear all;
     %------------------------------
     % parameters
     %------------------------------
     % some general parameters
-    figStart=0;
-    initSeed=0;
-    maxIt   = 100;
-    par = get_par(initSeed,[],[],maxIt);
+    par = get_par(seednum,[],[],maxit);
+
+    s = RandStream('mt19937ar','Seed', par.initSeed);
+    RandStream.setGlobalStream(s);
+
+    par.compareNGMRESO_ALS = 1;
+    par.compareNGMRES_ALS = 1;
+    par.compareALS = 1;
+    par.compareNGMRES_sdls = 0;
+    par.compareNGMRESO_sdls = 0;
+    par.compareNGMRES_sd = 0;
+    par.compareNGMRESO_sd = 0;
+    par.compareNCG = 1;
+    par.compareLBFGS = 1;
+
+    lineSearch_ngmres=@(fg,u0,f0,g0,d) poblano_linesearch(fg,u0,f0,g0,1.,d,par.par_ngmres);
 
     %------------------------------
     % create a test tensor
@@ -56,6 +67,13 @@ function ngmres_test_tensor_CP
     c=0.9; % collinearity
     pars=[s c r l1 l2];
     T=can_createTensorDense(pars);
+
+
+    %--------------------------------------
+    % do some pre-processing
+    %--------------------------------------
+    nT2=norm(T)^2;
+
     fg = @(u) tt_cp_fun(u,T,nT2);
 
     % Steepest descent preconditioner without linesearch
@@ -63,10 +81,8 @@ function ngmres_test_tensor_CP
                              fg, ...                         % function that computes f and g
                              par.precStep1,par.precStep2);
 
-    %--------------------------------------
-    % do some pre-processing
-    %--------------------------------------
-    nT2=norm(T)^2;
+    % ALS preconditioner
+    M_als=@(u,f,g) can_ALSu(T,r,u,f,g,fg);
 
     %--------------------------------------
     % generate the random initial guess
@@ -74,15 +90,25 @@ function ngmres_test_tensor_CP
     u0=rand(r*sum(size(T)),1);
 
     %--------------------------------------
-    % call cp_ngmres
+    % call ngmres-als
     %--------------------------------------
-    out.out_ngmres_als=cp_ngmres(T,r,tt_cp_vec_to_fac(u0,T),par.par_ngmres,par.par_ngmres);
+    if par.compareNGMRESO_ALS==1
+        out.out_ngmres_als=ngmres(u0, ...               % initial guess
+                           fg, ...               % function that computes f and g
+                           M_als, ...            % preconditioner function
+                           lineSearch_ngmres,... % line search function
+                           par.par_ngmres);      % ngmres parameters
+    end
 
     %--------------------------------------
     % call other solvers for comparison
     %--------------------------------------
     if par.compareNGMRESO_ALS==1
-        out.out_ngmreso_als=cp_ngmres_o(T,r,tt_cp_vec_to_fac(u0,T),par.par_ngmres,par_ngmres);
+        out.out_ngmreso_als=ngmres_o(u0, ...               % initial guess
+                             fg, ...               % function that computes f and g
+                             M_als, ...            % preconditioner function
+                             lineSearch_ngmres,... % line search function
+                             par.par_ngmres);      % ngmres parameters
     end
     if par.compareNGMRES_sd==1; % then N-GMRES, preconditioner: SD with small step
         disp('+++ start n-gmres with descent preconditioner')
@@ -115,17 +141,17 @@ function ngmres_test_tensor_CP
         end
     end
     if par.compareALS==1
-        fevALS = zeros(par.maxIt);
+        fevALS = zeros(maxit,1);
         disp('+++ start ALS')
         u=u0;
-        [f g]=tt_cp_fun(u,T,nT2);
-        for k=1:par.maxIt
-            [u,f,g,fev]=can_ALSu(T,r,u,f,g,@(u) tt_cp_fun(u,T,nT2));
+        [f g]= fg(u);
+        for k=1:maxit
+            [u,f,g,fev]= M_als(u,f,g);%can_ALSu(T,r,u,f,g,fg);
             fALS(k)=f;
             gALS(k)=norm(g);
             fevALS(k) = fev;
         end
-        for k = 2:par.maxIt
+        for k = 2:maxit
             fevALS(k) = fevALS(k) + fevALS(k-1);
         end
         out.out_als.logf = fALS;
@@ -138,5 +164,13 @@ function ngmres_test_tensor_CP
 
 
     % TODO: Start here (run util_ffigure)
+    if plotfigs == true
+        figure(par.figStart+2)
+        util_ffigure(par,out)
+        title('Tensor decomposition')
 
+        figure(par.figStart+3)
+        util_ffigure_evals(par,out)
+        title('Tensor decomposition')
+    end
 end
