@@ -36,7 +36,6 @@ function par = get_par(seednum,probnum,n,maxit)
 
     par.initSeed = seednum;
 
-    par.figRunFirst=7;       % which run to plot first in the figures (needs to be selected above)
     par.figStart=100;        % figure number
     par.precStep1=1e-4;      % step in steepest descent preconditioner without line search
     par.precStep2=1e0;       % step factor in steepest descent preconditioner without line search

@@ -42,7 +42,8 @@ function util_ffigure(par,out)
     if par.compareALS==1
         minval=min(minval,min(out.out_als.logf));
     end
-    
+
+    %% Then, make the plots
     if par.compareNGMRES_sdls==1
         var = out.out_ngmres_sdls;
         cnum = 1;
@@ -103,7 +104,7 @@ function util_ffigure(par,out)
         legendstr{nCurves}='N-GMRES-O-sdls';
         hold on
     end
-    if par.compareNGMRESO_sd==1 
+    if par.compareNGMRESO_sd==1
         var = out.out_ngmreso_sd;
         cnum = 9;
         mind = 1:par.mispace{cnum}:length(var.logf);
@@ -113,7 +114,7 @@ function util_ffigure(par,out)
         legendstr{nCurves}='N-GMRES-O-sd';
         hold on
     end
-    if par.compareNGMRESO_ALS==1 
+    if par.compareNGMRESO_ALS==1
         var = out.out_ngmreso_als;
         cnum = 10;
         mind = 1:par.mispace{cnum}:length(var.logf);
@@ -123,7 +124,7 @@ function util_ffigure(par,out)
         legendstr{nCurves}='N-GMRES-O-ALS';
         hold on
     end
-    if par.compareNGMRES_ALS==1 
+    if par.compareNGMRES_ALS==1
         var = out.out_ngmres_als;
         cnum = 11;
         mind = 1:par.mispace{cnum}:length(var.logf);
@@ -133,9 +134,9 @@ function util_ffigure(par,out)
         legendstr{nCurves}='N-GMRES-ALS';
         hold on
     end
-    if par.compareALS==1 
+    if par.compareALS==1
         var = out.out_als;
-        cnum = 11;
+        cnum = 12;
         mind = 1:par.mispace{cnum}:length(var.logf);
         semilogy(var.logf-minval+par.epsi, ...
                  par.fs{cnum},'LineWidth',1,'MarkerIndices',mind)

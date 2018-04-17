@@ -45,7 +45,7 @@ function [par,out] = ngmres_test_general(seednum,probnum,n,maxit,plotfigs)
     % some figure output
     %--------------------------------------
     if plotfigs == true
-        figure(par.figStart+2)
+        figure(par.figStart)
         util_ffigure(par,out)
         title(sprintf('Problem %s, seed number %d', par.probNames{probnum}, ...
                       seednum))
