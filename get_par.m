@@ -132,4 +132,6 @@ function par = get_par(seednum,probnum,n,maxit)
     par.par_sdls.LineSearch_stpmax=1.000000000000000e+15;
     par.par_sdls.LineSearch_stpmin=1.000000000000000e-15;
     par.par_sdls.LineSearch_xtol=1.000000000000000e-15;
+
+    par.par_als.maxIt = par.par_ngmres.maxIt;
 end
