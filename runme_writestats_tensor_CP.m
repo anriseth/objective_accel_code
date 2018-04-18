@@ -1,7 +1,7 @@
-runtensor_50;
+runtensor_50 = true;
 prob.names = {'N-GMRES-ALS', 'N-CG', 'L-BFGS', 'O-ACCEL-ALS', 'ALS'};
 % We permute it as follows:
-prob.order = [5, 4, 3, 2, 1];
+prob.order = [5, 4, 2, 3, 1];
 
 % Report the following quantiles:
 prob.qlevels = [0.1,0.5,0.9];

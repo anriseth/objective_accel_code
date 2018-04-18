@@ -22,6 +22,19 @@ function [outarr,iters,evals,fails] = ngmres_stats_tensor_CP(numruns, maxit)
     parfor seednum = 1:numruns
         fprintf('Iteration %d\n', seednum)
         par = get_par(seednum,[],[],maxit);
+
+        %% Compare different solvers than for the general problems
+        par.compareNGMRESO_ALS = 1;
+        par.compareNGMRES_ALS = 1;
+        par.compareALS = 1;
+        par.compareNGMRES_sdls = 0;
+        par.compareNGMRESO_sdls = 0;
+        par.compareNGMRES_sd = 0;
+        par.compareNGMRESO_sd = 0;
+        par.compareNCG = 1;
+        par.compareLBFGS = 1;
+        %%
+
         outarr{seednum} = run_opts_tensor_CP(par);
 
         fmin = min(outarr{seednum}.out_ngmres_als.logf);
@@ -33,7 +46,6 @@ function [outarr,iters,evals,fails] = ngmres_stats_tensor_CP(numruns, maxit)
                    min(outarr{seednum}.out_ncg.TraceFunc(2:end)));
         fmin = min(fmin, ...
                    min(outarr{seednum}.out_lbfgs.TraceFunc(2:end)));
-    end
 
         % Store the objective value at the initial condition
         f0 = outarr{seednum}.out_ncg.TraceFunc(1);
